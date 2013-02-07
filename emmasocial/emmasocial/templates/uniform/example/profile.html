@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
+{% url 'socialaccount_connections' as connections_url %}
+
 {% block content %}
 <h1>Profile</h1>
 
 <p>Your profile</p>
 
-<p>Your <a href="{% url 'socialaccount_connections' %}">connections</a></p>
+<p>Your <a href="{{connections_url}}">connections</a></p>
 {% endblock %}
