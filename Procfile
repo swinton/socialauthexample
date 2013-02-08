@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath ./emmasocial emmasocial.wsgi -w 4
+web: gunicorn --pythonpath ./src emmasocial.wsgi -w 4
