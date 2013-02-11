@@ -1,16 +1,20 @@
 class mysql() {
 
     package {'mysql-server':
-            ensure => present,
-        }
+        ensure => present,
+    }
 
     package {'mysql-client':
-            ensure => present,
-        }
+        ensure => present,
+    }
+
+    package {'libmysqlclient-dev':
+        ensure => present,
+    }
 
     service {'mysql':
-            ensure => running,
-            enable => true,
-            require => Package['mysql-server'],
-        }
+        ensure => running,
+        enable => true,
+        require => Package['mysql-server'],
+    }
 }

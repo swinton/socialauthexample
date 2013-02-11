@@ -1,4 +1,6 @@
 class emmasocial() {
+    $bashrc_auto_activate_virtualenv = "\\n# auto-activate virtualenv\\nsource .virtualenvs/emmasocial/bin/activate\\n"
+
     file {"/home/vagrant/.virtualenvs":
         ensure => directory,
         owner => "vagrant",
@@ -14,17 +16,25 @@ class emmasocial() {
         require => File["/home/vagrant/.virtualenvs"],
     }
 
+    exec {"auto-activate virtualenv":
+        command => "echo '$bashrc_auto_activate_virtualenv' | cat >> .bashrc",
+        path => "/bin",
+        cwd => "/home/vagrant",
+        unless => "grep -q 'auto-activate virtualenv' .bashrc",
+        user => "vagrant",
+        require => Exec["virtualenv"],
+    }
+
     exec{"pip install requirements":
         command => "pip install -r requirements.txt",
-        path => "/home/vagrant/.virtualenvs/emmasocial/bin",
+        path => "/home/vagrant/.virtualenvs/emmasocial/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/vagrant_ruby/bin",
         cwd => "/home/vagrant/emmasocial",
         user => "vagrant",
         require => Exec["virtualenv"],
     }
 
     # TODO:
-    # Auto-activate virtualenv (cat > .bashrc)
-    # Install mysql-python
+    # Setup database
     # Run syncdb
     # ...
 }
