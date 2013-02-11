@@ -33,13 +33,24 @@ class emmasocial() {
         require => Exec["virtualenv"],
     }
 
+    exec {"easy_install ipython":
+        command => "easy_install http://archive.ipython.org/release/0.12.1/ipython-0.12.1-py2.7.egg",
+        path => "/home/vagrant/.virtualenvs/emmasocial/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/vagrant_ruby/bin",
+        user => "vagrant",
+        require => Exec["virtualenv"],
+    }
+
     exec {"mysql create database":
         command => "mysql -u root -e \"create database if not exists emmasocial default character set = 'utf8'\"",
         path => "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/vagrant_ruby/bin",
         user => "vagrant",
+        require => Exec["pip install requirements"],
     }
 
-    # TODO:
-    # Run syncdb
-    # ...
+    exec {"syncdb":
+        command => "manage.py syncdb --noinput",
+        path => "/home/vagrant/emmasocial/src:/home/vagrant/.virtualenvs/emmasocial/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/vagrant_ruby/bin",
+        user => "vagrant",
+        require => Exec["mysql create database"],
+    }
 }
