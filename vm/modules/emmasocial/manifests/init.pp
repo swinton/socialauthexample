@@ -43,6 +43,7 @@ class emmasocial() {
         command => "easy_install http://archive.ipython.org/release/0.12.1/ipython-0.12.1-py2.7.egg",
         path => "/home/vagrant/.virtualenvs/emmasocial/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/vagrant_ruby/bin",
         user => "vagrant",
+        creates => "/home/vagrant/.virtualenvs/emmasocial/bin/ipython",
         require => Exec["virtualenv"],
     }
 
