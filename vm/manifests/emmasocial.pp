@@ -11,7 +11,8 @@ exec {'apt-get install build-essential' :
 class {'mysql' :
 }
 
-class {'redis' :
+class {'redis':
+    version => '2.6.5',
 }
 
 class {'python' :
