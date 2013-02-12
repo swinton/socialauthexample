@@ -14,9 +14,10 @@ Vagrant::Config.run do |config|
 
         config.vm.share_folder "emmasocial", "./emmasocial", "..", :owner=> 'vagrant', :group=>'vagrant'
 
-        config.vm.forward_port 3306, 3306
-        config.vm.forward_port 80, 8080
-        config.vm.forward_port 8000, 8000
+        config.vm.forward_port 3306, 3306 # MySQL
+        config.vm.forward_port 80, 8080   # Not used
+        config.vm.forward_port 8000, 8000 # Django development server
+        config.vm.forward_port 6379, 6379 # Redis
 
         config.vm.provision :puppet, :module_path => "modules" do |puppet|
             puppet.manifests_path = "manifests"

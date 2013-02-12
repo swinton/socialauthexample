@@ -5,7 +5,7 @@ exec {'apt-update' :
 } -> Package <| |>
 
 exec {'apt-get install build-essential' :
-        command => '/usr/bin/apt-get install -y build-essential',
+        command => '/usr/bin/apt-get install -y build-essential bzip2 libbz2-dev',
 } -> Package <| |>
 
 class {'mysql' :
