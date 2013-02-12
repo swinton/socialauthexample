@@ -7,6 +7,12 @@ class emmasocial() {
         group => "vagrant",
     }
 
+    exec {"heroku-toolbelt":
+        command => "wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh",
+        creates => "/usr/bin/heroku",
+        path => "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/vagrant_ruby/bin",
+    }
+
     exec {"virtualenv":
         command => "virtualenv -p /usr/local/bin/python2.7 --distribute --no-site-packages emmasocial",
         path => "/usr/local/bin",
@@ -52,5 +58,12 @@ class emmasocial() {
         path => "/home/vagrant/emmasocial/src:/home/vagrant/.virtualenvs/emmasocial/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/vagrant_ruby/bin",
         user => "vagrant",
         require => Exec["mysql create database"],
+    }
+
+    exec {"migrate":
+        command => "manage.py migrate emmasocial",
+        path => "/home/vagrant/emmasocial/src:/home/vagrant/.virtualenvs/emmasocial/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/vagrant_ruby/bin",
+        user => "vagrant",
+        require => Exec["syncdb"],
     }
 }
