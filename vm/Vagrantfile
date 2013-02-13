@@ -24,3 +24,19 @@ Vagrant::Config.run do |config|
             puppet.manifest_file  = "emmasocial.pp"
         end
 end
+
+
+class DjangoShellCommand < Vagrant::Command::Base
+  def execute
+    exec 'ssh -t emmasocial "source .virtualenvs/emmasocial/bin/activate; cd emmasocial/src; python manage.py shell"'
+  end
+end
+Vagrant.commands.register(:shell) { DjangoShellCommand }
+
+
+class DjangoRunserverCommand < Vagrant::Command::Base
+  def execute
+    exec 'ssh -t emmasocial "source .virtualenvs/emmasocial/bin/activate; cd emmasocial/src; sudo python manage.py runserver 0.0.0.0:80"'
+  end
+end
+Vagrant.commands.register(:runserver) { DjangoRunserverCommand }
