@@ -105,6 +105,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'emmasocial.middleware.RestrictMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -192,6 +193,16 @@ LOGGING = {
         },
     }
 }
+
+# emmasocial.middleware.base.RestrictMiddleware settings
+# Restrict access to following IPs:
+RESTRICT_IP_WHITELIST = (
+    "127.0.0.1",  # Localhost
+    "192.168.33.42",  # VM - guest
+    "192.168.33.1",  # VM - host
+    "69.164.216.137",  # Steve's dev box
+    "209.119.227.66",  # Emma office
+)
 
 try:
     from local_settings import *
